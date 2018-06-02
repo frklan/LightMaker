@@ -1,0 +1,30 @@
+name: LightMaker
+main: com.yellowfortyfour.spigot.lightmaker.LightMakerPlugin
+version: 0.0.1-SNAPSHOT
+author: Fredrik Andersson (ProtonCavor)
+
+#commands:
+commands:
+  lm:
+    description: LightMaker Command
+    usage: /lm
+  lmon:
+    description: Turns a bulb on
+    usage: /lmon
+  lmoff:
+    description: Turns a bulb off
+    usage: /lmoff
+      
+permissions:
+  lightmaker.*:
+    description: Defaulting all to false
+    permission-message: You need permission <permission>  to use this command
+    default: false        
+  lightmaker.use:
+    description: Permission to let user use lm commands lmon and lmoff
+    default: false
+  lightmaker.all:
+    description: All permissions
+    default: op
+    children:
+      lightmaker.*: true
