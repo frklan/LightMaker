@@ -3,11 +3,13 @@ package com.yellowfortyfour.spigot.lightmaker;
 
 import com.yellowfortyfour.spigot.lightmaker.api.RestApi;
 import com.yellowfortyfour.spigot.lightmaker.commands.BlockCommand;
-import com.yellowfortyfour.spigot.lightmaker.events.BlockBreakHandler;
+import com.yellowfortyfour.spigot.lightmaker.events.*;
 import com.yellowfortyfour.spigot.lightmaker.db.BlockStorage;
+import com.yellowfortyfour.spigot.lightmaker.tasks.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class LightMakerPlugin extends JavaPlugin
 	private Configuration config;
 	private String db;
 	private BlockStorage blockStorage;
+	BukkitTask bulbButtonCleaner;
 
 	@Override
 	public void onEnable()
@@ -31,9 +34,11 @@ public class LightMakerPlugin extends JavaPlugin
 		RestApi.setBaseApi(config.getString("api", "http://localhost:5000/api/v1/"));
 		RestApi.setJwtToken(config.getString("api-token", ""));
 		blockStorage = new BlockStorage(this, new File(getDataFolder(), config.getString("db-name", "LightMaker.db")));
+
 		Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakHandler(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractHandler(this), this);
 		this.getCommand("b").setExecutor(new BlockCommand(this));
-		
+
 	}
 
 	public Configuration getConfiguration()
