@@ -36,6 +36,20 @@ Copy the jar file from ```target``` to your spigot server's plugin folder.
 5. configure bulbs.
 6. Have fun.
 
+
+## debuging
+
+1: Start SpigotMC:
+$ java -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -Xms512M -Xmx1024M -XX:MaxPermSize=128M -jar spigot-1.12.2.jar 
+
+2: connect from your ide to localhost port 5005
+
+## Check SSL cert
+$ openssl s_client -connect dev.yellowfortyfour.com:443 -showcerts  
+
+## tcpdump
+sudo tcpdump -nnvvXSs 6514 dst port 5000 -i lo0
+
 ### Permissions
 
 TBD

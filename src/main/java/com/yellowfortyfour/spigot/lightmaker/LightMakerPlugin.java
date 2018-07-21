@@ -1,48 +1,48 @@
 package com.yellowfortyfour.spigot.lightmaker;
 
+
+import com.yellowfortyfour.spigot.lightmaker.api.RestApi;
+import com.yellowfortyfour.spigot.lightmaker.commands.BlockCommand;
+import com.yellowfortyfour.spigot.lightmaker.events.BlockBreakHandler;
+import com.yellowfortyfour.spigot.lightmaker.db.BlockStorage;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.UUID;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-
-
 
 public class LightMakerPlugin extends JavaPlugin 
 {
-	protected FileConfiguration config;
-	private String baseApiUrl;
+	private HashMap<UUID, String> pendingCommand = new HashMap<>();
+	private Configuration config;
+	private String db;
+	private BlockStorage blockStorage;
 
 	@Override
 	public void onEnable()
 	{
-
-		try
-		{
-			this.saveDefaultConfig();
-			baseApiUrl = getConfig().getString("api");
-			RestApi.setBaseApi(baseApiUrl);
-		}
-		catch(Exception e)
-		{
-			getLogger().severe(e.toString());
-			return;
-		}
+		getLogger().severe("-----------------------------");
+		getLogger().severe("LightMakerPlugin is enabled");
+		getLogger().severe("-----------------------------");
 		
-		Bukkit.getServer().getPluginManager().registerEvents(new LightMaker(this), this);
-		this.getCommand("lm").setExecutor(new LighMakerCommand(this));
-		this.getCommand("lmon").setExecutor(new LighMakerBulbOnCommand(this));
-		this.getCommand("lmoff").setExecutor(new LighMakerBulbOffCommand(this));
+		config = new Configuration(this);
+		RestApi.setBaseApi(config.getString("api", "http://localhost:5000/api/v1/"));
+		RestApi.setJwtToken(config.getString("api-token", ""));
+		blockStorage = new BlockStorage(this, new File(getDataFolder(), config.getString("db-name", "LightMaker.db")));
+		Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakHandler(this), this);
+		this.getCommand("b").setExecutor(new BlockCommand(this));
+		
 	}
 
-	public String getApiUrl()
+	public Configuration getConfiguration()
 	{
-		return this.baseApiUrl;
+		return config;
+	}
+
+	public BlockStorage getBlockStorage() {
+		return blockStorage;
 	}
 
 }

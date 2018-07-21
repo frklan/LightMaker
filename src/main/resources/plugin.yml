@@ -1,20 +1,20 @@
 name: LightMaker
 main: com.yellowfortyfour.spigot.lightmaker.LightMakerPlugin
-version: 0.0.1-SNAPSHOT
+version: 0.0.2-SNAPSHOT
 author: Fredrik Andersson (ProtonCavor)
 
 #commands:
 commands:
-  lm:
-    description: LightMaker Command
-    usage: /lm
-  lmon:
-    description: Turns a bulb on
-    usage: /lmon
-  lmoff:
-    description: Turns a bulb off
-    usage: /lmoff
-      
+  b:
+    description: sets data on block in hand
+    usage: 'Usage: /b [c bulbid]|[d]'
+  c:
+    description: reads config
+    usage: /c
+  q:
+    description: read and write sqllite db
+    usage: /q
+
 permissions:
   lightmaker.*:
     description: Defaulting all to false
