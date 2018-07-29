@@ -37,8 +37,10 @@ public class LightMakerPlugin extends JavaPlugin
 
 		Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakHandler(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractHandler(this), this);
+		
 		this.getCommand("b").setExecutor(new BlockCommand(this));
 
+		bulbButtonCleaner = new BulbButtonCleaner(this).runTaskTimer(this, 100, 500);
 	}
 
 	public Configuration getConfiguration()

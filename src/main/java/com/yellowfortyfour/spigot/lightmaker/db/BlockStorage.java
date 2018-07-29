@@ -160,6 +160,49 @@ public class BlockStorage extends SqLite {
     return buttonIds;
   }
 
+  public ArrayList<String> getButtonIds(String world){
+    String sql = "select button_id from buttons where WORLD = ?";
+    ArrayList<String> buttonList = new ArrayList<>();
+
+    try(PreparedStatement pstmt  = connectDb().prepareStatement(sql)){
+        pstmt.setString(1, world);
+
+        ResultSet rs  = pstmt.executeQuery();
+        
+        while (rs.next()) {
+          buttonList.add(rs.getString("button_id"));
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return buttonList;
+  }
+
+  public HashMap<String, Integer> getButtonLocation(String world, String buttonId) {
+    String sql = "select LOCATION_X, LOCATION_Y, LOCATION_Z from buttons where BUTTON_ID = ? and WORLD = ?";
+    HashMap<String, Integer> location = new HashMap<>();
+
+    try(PreparedStatement pstmt  = connectDb().prepareStatement(sql)){
+        // set the value
+        pstmt.setString(1, buttonId);
+        pstmt.setString(2, world);
+
+        ResultSet rs  = pstmt.executeQuery();
+
+        // loop through the result set
+        int x = rs.getInt("LOCATION_X");
+        int y = rs.getInt("LOCATION_Y");
+        int z = rs.getInt("LOCATION_Z");
+        location.put("x", x);
+        location.put("y", y);
+        location.put("z", z);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return location;
+  }
+
+
   public void deleteBulbsAtButton(String buttonId) {
     String sql = "DELETE FROM bulbs WHERE BUTTON_ID = ?";
 
