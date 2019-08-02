@@ -13,13 +13,13 @@ Ever been so busy playing Minecraft that you do not have time to turn on the lig
 
 To compile issue the following commands
 
+````bash
+git clone git@github.com:frklan/LightMaker.git
+cd LightMaker
+mvn package
 ````
-$ git clone git@github.com:frklan/LightMaker.git
-$ cd LightMaker
-$ mvn package
-````
-Copy the jar file from ```target``` to your spigot server's plugin folder.
 
+Copy the jar file from ```target``` to your spigot server's plugin folder.
 
 ## Running
 
@@ -27,8 +27,10 @@ Copy the jar file from ```target``` to your spigot server's plugin folder.
 
 * Java 8
 * A [SpigotMC](https://www.spigotmc.org/wiki/spigot/) server
+* My [Trådfri api server](https://github.com/frklan/caesium)
 
 ### Installing
+
 1. Copy the jar file to your server's plugin folder and restart the server.
 2. Start/restart your server
 3. Set api url in plugin/lightmaker.conf
@@ -45,9 +47,11 @@ $ java -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,serv
 2: connect from your ide to localhost port 5005
 
 ## Check SSL cert
+
 $ openssl s_client -connect [host]:443 -showcerts  
 
 ## tcpdump
+
 sudo tcpdump -nnvvXSs 6514 dst port 5000 -i lo0
 
 ### Permissions
