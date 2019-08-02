@@ -45,7 +45,7 @@ $ java -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,serv
 2: connect from your ide to localhost port 5005
 
 ## Check SSL cert
-$ openssl s_client -connect dev.yellowfortyfour.com:443 -showcerts  
+$ openssl s_client -connect [host]:443 -showcerts  
 
 ## tcpdump
 sudo tcpdump -nnvvXSs 6514 dst port 5000 -i lo0
